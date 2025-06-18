@@ -1,0 +1,36 @@
+# Dependency folders
+node_modules/
+.calci/node_modules/
+calci/node_modules/
+
+# Environment files
+.env
+.env.local
+calci/.env
+calci/.env.local
+
+# Build output
+build/
+dist/
+calci/build/
+calci/dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+calci/npm-debug.log*
+calci/yarn-debug.log*
+calci/yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
+calci/.DS_Store
+calci/Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+calci/.vscode/
+calci/.idea/
