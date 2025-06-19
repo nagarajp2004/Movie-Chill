@@ -25,7 +25,7 @@ Features
 
  🔧 Prerequisites
 
-- [Node.js](https://nodejs.org) (v16+)  
+- react js  
 - Appwrite account & project  
 - TMDB API key  
 
