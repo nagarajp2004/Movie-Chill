@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Spinner from "./components/Spinner"
 import Moviecard from "./components/Moviecard";
 import { useDebounce } from "react-use";
-import { updateSearchCount } from "./appwrite";
+import { getTrendingMovies, updateSearchCount } from "./appwrite";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API;
@@ -27,7 +27,7 @@ function App() {
   const [movielist, setmovielist] = useState('');
   const [isloading, setisloading] = useState(false);
   const [debounceterm,setdebounceterm]=useState('');
-
+  const [vgetTrendingMovies,setTrendingMovies]=useState([]);
 
   useDebounce ( ()=>{
     setdebounceterm(searchTerm)},500,[searchTerm]
@@ -71,11 +71,26 @@ function App() {
 
   }
 
-
+ const loadTrendingMovies =async () =>{
+     try{
+      const movie=await getTrendingMovies();
+  
+       setTrendingMovies(movie);
+      
+     }catch(error){
+        console.error("error in fetch ")
+      }
+ }
 
   useEffect(() => {
     fetchMovies(debounceterm);
   }, [debounceterm])
+
+
+  useEffect(() =>{
+    loadTrendingMovies();
+  },[]);
+
 
   return (
     <main>
@@ -90,9 +105,24 @@ function App() {
           <Search searchTerm={searchTerm} setsearch={setsearch} />
         </header>
 
+       {vgetTrendingMovies && vgetTrendingMovies.length > 0 && (
+  <section className="trending">
+    <h2>Trending</h2>
+    <ul>
+      {vgetTrendingMovies.map((movie, index) => (
+        <li key={movie.$id}>
+          <p>{index + 1}</p>
+          <img src={movie.poster_url} alt={`Poster of ${movie.title || 'movie'}`} />
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+
 
         <section className="all-movies">
-          <h2 className="mt-[100px] text-2xl text-white">All Movies</h2>
+          <h2 >All Movies</h2>
           {isloading ? <Spinner/>: errorTerm ? (<p className="text-red-500">{errorTerm}</p>) :
             (
               <ul>
